@@ -65,7 +65,7 @@ modules:
       - name: wxwidgets
         buildsystem: cmake-ninja
         config-opts:
-        # TODO: Disable more unused features to fast up compiling.
+          # TODO: Disable more unused features to fast up compiling.
           - -DCMAKE_BUILD_TYPE=Release
           - -DwxBUILD_TOOLKIT=gtk3
           - -DwxUSE_BASE64=OFF
@@ -221,6 +221,6 @@ modules:
         sources:
           - type: git
             url: https://github.com/unanimated/luaegisub
-              # There is no verson tags.
+            # There is no verson tags.
             commit: 31ca1da409b2f69c415de4bef2aef2ef328d5655
 

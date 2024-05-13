@@ -8,7 +8,7 @@
 
 id: org.aegisub.Aegisub
 runtime: org.gnome.Platform
-runtime-version: "45"
+runtime-version: '45'
 sdk: org.gnome.Sdk
 command: aegisub
 finish-args:
@@ -24,16 +24,16 @@ rename-icon: aegisub
 # TODO: Consider separate locales
 separate-locales: false
 cleanup:
-  - "/include"
-  - "/lib/pkgconfig"
-  - "/share/pkgconfig"
-  - "/share/aclocal"
-  - "/man"
-  - "/share/man"
-  - "/share/doc"
-  - "/share/gtk-doc"
-  - "*.la"
-  - "*.a"
+  - /include
+  - /lib/pkgconfig
+  - /share/pkgconfig
+  - /share/aclocal
+  - /man
+  - /share/man
+  - /share/doc
+  - /share/gtk-doc
+  - '*.la'
+  - '*.a'
 modules:
   - name: aegisub
     buildsystem: autotools
@@ -65,18 +65,18 @@ modules:
       - name: wxwidgets
         buildsystem: cmake-ninja
         config-opts:
-        # TODO: Disable more unused features to fast up compiling.
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DwxBUILD_TOOLKIT=gtk3
-        - -DwxUSE_BASE64=OFF
-        - -DwxUSE_GIF=OFF
-        - -DwxUSE_LIBJPEG=OFF
-        - -DwxUSE_SVG=OFF
-        - -DwxUSE_TARSTREAM=OFF
-        - -DwxUSE_LIBTIFF=OFF
-        - -DwxUSE_WEBVIEW_WEBKIT=OFF
-        - -DwxUSE_WEBVIEW=OFF
-        - -DwxUSE_LIBPNG=sys
+          # TODO: Disable more unused features to fast up compiling.
+          - -DCMAKE_BUILD_TYPE=Release
+          - -DwxBUILD_TOOLKIT=gtk3
+          - -DwxUSE_BASE64=OFF
+          - -DwxUSE_GIF=OFF
+          - -DwxUSE_LIBJPEG=OFF
+          - -DwxUSE_SVG=OFF
+          - -DwxUSE_TARSTREAM=OFF
+          - -DwxUSE_LIBTIFF=OFF
+          - -DwxUSE_WEBVIEW_WEBKIT=OFF
+          - -DwxUSE_WEBVIEW=OFF
+          - -DwxUSE_LIBPNG=sys
         cleanup:
           - /bin
           - /share/bakefile
@@ -158,7 +158,8 @@ modules:
       - name: boost
         buildsystem: simple
         build-commands:
-          - ./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=chrono,container,filesystem,system,locale,regex,thread --with-icu
+          - ./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=chrono,container,filesystem,system,locale,regex,thread
+            --with-icu
           - ./b2 install variant=release
         sources:
           - type: archive
@@ -211,15 +212,15 @@ modules:
               type: git
               version-scheme: semantic
       - shared-modules/intltool/intltool-0.51.json
-  -  name: AegisubScripts
-     modules:
-        - name: LuaegisubCollection
-          buildsystem: simple
-          build-commands:
-            - install -Dm644 *.lua -t /app/share/aegisub/automation/autoload/
-          sources:
-            - type: git
-              url: https://github.com/unanimated/luaegisub
-              # There is no verson tags.
-              commit: 31ca1da409b2f69c415de4bef2aef2ef328d5655
+  - name: AegisubScripts
+    modules:
+      - name: LuaegisubCollection
+        buildsystem: simple
+        build-commands:
+          - install -Dm644 *.lua -t /app/share/aegisub/automation/autoload/
+        sources:
+          - type: git
+            url: https://github.com/unanimated/luaegisub
+            # There is no verson tags.
+            commit: 31ca1da409b2f69c415de4bef2aef2ef328d5655
 

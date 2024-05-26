@@ -150,8 +150,8 @@ modules:
                 url: https://github.com/FFmpeg/FFmpeg.git
                 mirror-urls:
                   - https://git.ffmpeg.org/ffmpeg.git
-                tag: n6.1.1
-                commit: e38092ef9395d7049f871ef4d5411eb410e283e0
+                tag: n7.0.1
+                commit: af25a4bfd2503caf3ee485b27b99b620302f5718
                 x-checker-data:
                   type: git
                   tag-pattern: ^n([\d.]{3,7})$
@@ -193,8 +193,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/libass/libass.git
-            tag: 0.17.1
-            commit: e8ad72accd3a84268275a9385beb701c9284e5b3
+            tag: 0.17.2
+            commit: cbb48cc4f2f076300004b8b06a86bec55281d0c2
             x-checker-data:
               type: git
               version-scheme: semantic

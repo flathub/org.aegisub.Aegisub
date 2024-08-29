@@ -8,7 +8,7 @@
 
 id: org.aegisub.Aegisub
 runtime: org.gnome.Platform
-runtime-version: '45'
+runtime-version: '46'
 sdk: org.gnome.Sdk
 command: aegisub
 finish-args:
@@ -97,12 +97,11 @@ modules:
         sources:
           - type: git
             url: https://github.com/FFMS/ffms2.git
-            # TODO: Wait for a new release to use it's tag.
-            # tag: "2.40"
-            commit: f20827cf280b669321cd5b62e01d744bc68c21fc
-            # x-checker-data:
-            #   type: git
-            #   tag-pattern: ^[0-9]+\.[0-9]+$
+            tag: "5.0"
+            commit: 7ed5e4d039ca9a6236bd2ebdfdd656c4304fbe04
+            x-checker-data:
+              type: git
+              tag-pattern: ^(\d.\d)$
         modules:
           - name: ffmpeg
             buildsystem: autotools
@@ -118,10 +117,7 @@ modules:
               # No docs are needed in flatpak.
               - --disable-doc
               # Those components are not used in ffms2.
-              # TODO: Consider this (libswresample & libavcodec are installed in ffms2's CI build):
               - --disable-avdevice
-              - --disable-avcodec
-              - --disable-swresample
               - --disable-postproc
               - --disable-avfilter
               - --disable-network
@@ -139,8 +135,7 @@ modules:
               - --enable-libdav1d # AV1 decoding via libdav1d
               - --enable-libjxl # JPEG XL decoding via libjxl
               - --enable-libopenjpeg # JPEG 2000 decoding via OpenJPEG
-              # FIX: Enable libvpx (can't be detected by ffmpeg)
-              # - --enable-libvpx # VP8 and VP9 decoding via libvpx
+              - --enable-libvpx # VP8 and VP9 decoding via libvpx
               # Developer options:
               - --disable-debug
             cleanup:
@@ -150,8 +145,8 @@ modules:
                 url: https://github.com/FFmpeg/FFmpeg.git
                 mirror-urls:
                   - https://git.ffmpeg.org/ffmpeg.git
-                tag: n6.1.1
-                commit: e38092ef9395d7049f871ef4d5411eb410e283e0
+                tag: n7.0.2
+                commit: e3a61e91030696348b56361bdf80ea358aef4a19
                 x-checker-data:
                   type: git
                   tag-pattern: ^n([\d.]{3,7})$
@@ -193,8 +188,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/libass/libass.git
-            tag: 0.17.1
-            commit: e8ad72accd3a84268275a9385beb701c9284e5b3
+            tag: 0.17.3
+            commit: e46aedea0a0d17da4c4ef49d84b94a7994664ab5
             x-checker-data:
               type: git
               version-scheme: semantic

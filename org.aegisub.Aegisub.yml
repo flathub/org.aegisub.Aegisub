@@ -84,8 +84,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/wxWidgets/wxWidgets.git
-            tag: v3.2.5
-            commit: 573e56d432cc2c4b19a27aa5cad3e6045bfc542b
+            tag: v3.2.6
+            commit: 5ff25322553c1870cf20a2e1ba6f20ed50d9fe9a
             x-checker-data:
               type: git
               tag-pattern: ^v(\d.\d.\d)$
@@ -97,7 +97,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/FFMS/ffms2.git
-            tag: "5.0"
+            tag: '5.0'
             commit: 7ed5e4d039ca9a6236bd2ebdfdd656c4304fbe04
             x-checker-data:
               type: git

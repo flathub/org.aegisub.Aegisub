@@ -18,9 +18,6 @@ finish-args:
   - --device=dri
   - --socket=pulseaudio
   - --filesystem=home
-rename-desktop-file: aegisub.desktop
-rename-appdata-file: aegisub.appdata.xml
-rename-icon: aegisub
 # TODO: Consider separate locales
 separate-locales: false
 cleanup:
@@ -36,25 +33,30 @@ cleanup:
   - '*.a'
 modules:
   - name: aegisub
-    buildsystem: autotools
+    buildsystem: meson
     config-opts:
-      - --enable-lto
-      - --with-boost-libdir=/app/lib
-      # FIX: Use system luajit (can't be detected with the used build options).
-      # - --with-system-luajit=yes
-      - --with-build-credit=zefr0x
-      - --disable-update-checker
-    post-install:
-        # This is needed to enable wayland support.
-        # It was disabled since wxwidgets wasn't supporting wayland in older releases.
-        # After the v3.3.3 release it was enabled but not released since the developer is not active.
-        # Without it the app might crash on XWayland.
-      - desktop-file-edit --set-key=Exec --set-value="aegisub %f" /app/share/applications/aegisub.desktop
+      - -Db_lto=true
+      # Audio output
+      - -Dalsa=enabled
+      - -Dlibpulse=enabled
+      # Video source
+      - -Dffms2=enabled
+      - -Davisynth=enabled
+      # Text
+      - -Dhunspell=enabled
+      - -Duchardet=enabled
+      - -Dcsri=enabled
+      # Other
+      - -Dfftw3=enabled
+      - -Dsystem_luajit=true
+      - -Dwx_version=3.2.6
+      - -Dcredit="zefr0x"
+      - -Denable_update_checker=false
     sources:
       - type: git
-        url: https://github.com/wangqr/Aegisub
-        tag: v3.3.3
-        commit: a596a88115890a6f8ecd41518f1dbcdea1f6cd61
+        url: https://github.com/TypesettingTools/Aegisub
+        tag: v3.4.1
+        commit: a81794872968ee25ad46a5eebdfe1ce297668a4d
         x-checker-data:
           type: git
           tag-pattern: ^v(\d.\d.\d)$
@@ -101,7 +103,7 @@ modules:
             commit: 7ed5e4d039ca9a6236bd2ebdfdd656c4304fbe04
             x-checker-data:
               type: git
-              tag-pattern: ^(\d.\d)$
+              tag-pattern: ^(\d\.\d)$
         modules:
           - name: ffmpeg
             buildsystem: autotools
@@ -145,8 +147,8 @@ modules:
                 url: https://github.com/FFmpeg/FFmpeg.git
                 mirror-urls:
                   - https://git.ffmpeg.org/ffmpeg.git
-                tag: n7.0.2
-                commit: e3a61e91030696348b56361bdf80ea358aef4a19
+                tag: n7.1
+                commit: b08d7969c550a804a59511c7b83f2dd8cc0499b8
                 x-checker-data:
                   type: git
                   tag-pattern: ^n([\d.]{3,7})$
@@ -158,31 +160,43 @@ modules:
           - ./b2 install variant=release
         sources:
           - type: archive
-            url: https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz
-            sha512: f62aba05b1b6864e0403f20d06e64da567cd81825d0c75f8aa12004658313747d94e4259879f74975d3a19561fa202cf926ebb523c5e83dc1034076483902276
+            url: https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz
+            sha512: 097a0541945d5027b7513c249e65099a7269dcadf65e013f747ab9064fc3332975dc1eec6bd7aa9ac8a2fbe6e154409b06f267668c7c66ad6f01bd556a1d02db
             x-checker-data:
               type: anitya
               project-id: 6845
               stable-only: true
               url-template: https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz
-              versions:
-                # Current version of aegisub doesn't support later than this
-                <=: 1.80.0
-      # TODO: Install luajit with all needed libraries in the system rathen then using bundled.
+      - name: LuaJIT
+        buildsystem: autotools
+        no-autogen: true
+        build-options:
+          cflags: -DLUAJIT_ENABLE_LUA52COMPAT
+        make-install-args:
+          - PREFIX=${FLATPAK_DEST}
+        cleanup:
+          - /bin
+        sources:
+          - type: git
+            url: https://github.com/LuaJIT/LuaJIT.git
+            mirror-urls:
+              - https://luajit.org/git/luajit.git
+            # LuaJIT has a "rolling release" where you should follow git HEAD
+            # branch: v2.1
+            commit: f73e649a954b599fc184726c376476e7a5c439ca
       - ./shared-modules/linux-audio/fftw3f.json
-      # TODO: Enable AviSynthPlus support after it's properly supported in up-stream.
-      # - name: AviSynthPlus
-      #   buildsystem: cmake-ninja
-      #   config-opts:
-      #     - -DENABLE_CUDA=ON
-      #   sources:
-      #     - type: git
-      #       url: https://github.com/AviSynth/AviSynthPlus.git
-      #       tag: v3.7.3
-      #       commit: fc5b9bc41fd47001b7da39ea777d29c0ede2a2a7
-      #       x-checker-data:
-      #         type: git
-      #         version-scheme: semantic
+      - name: AviSynthPlus
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DENABLE_CUDA=ON
+        sources:
+          - type: git
+            url: https://github.com/AviSynth/AviSynthPlus.git
+            tag: v3.7.3
+            commit: fc5b9bc41fd47001b7da39ea777d29c0ede2a2a7
+            x-checker-data:
+              type: git
+              version-scheme: semantic
       - name: libass
         buildsystem: autotools
         sources:
@@ -207,6 +221,18 @@ modules:
               type: git
               version-scheme: semantic
       - shared-modules/intltool/intltool-0.51.json
+      - name: gtest
+        buildsystem: cmake-ninja
+        cleanup:
+          - /**
+        sources:
+          - type: git
+            url: https://github.com/google/googletest.git
+            tag: v1.15.2
+            commit: b514bdc898e2951020cbdca1304b75f5950d1f59
+            x-checker-data:
+              type: git
+              version-scheme: semantic
   - name: AegisubScripts
     modules:
       - name: LuaegisubCollection
@@ -216,6 +242,6 @@ modules:
         sources:
           - type: git
             url: https://github.com/unanimated/luaegisub
-            # There is no verson tags.
+            # There is no version tags.
             commit: 31ca1da409b2f69c415de4bef2aef2ef328d5655
 

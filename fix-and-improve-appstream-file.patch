@@ -1,5 +1,3 @@
-diff --git a/packages/desktop/aegisub.metainfo.xml.in.in b/packages/desktop/aegisub.metainfo.xml.in.in
-index 684da1276..9bc934af7 100644
 --- a/packages/desktop/aegisub.metainfo.xml.in.in
 +++ b/packages/desktop/aegisub.metainfo.xml.in.in
 @@ -4,7 +4,7 @@
@@ -11,15 +9,10 @@ index 684da1276..9bc934af7 100644
    <description>
      <p>Aegisub is a free, cross-platform open source tool for creating and modifying subtitles. Aegisub makes it quick and easy to time subtitles to audio, and features many powerful tools for styling them, including a built-in real-time video preview.</p>
      <p>Aegisub was originally created as a tool to make typesetting, particularly in anime fansubs, a less painful experience. At the time of the start of the project, many other programs that supported the Advanced Substation Alpha format lacked (and in many cases, still lack; development on several competing programs have since been dropped for various reasons completely unrelated to Aegisub) many vital functions, or were too buggy and/or unreliable to be really useful.</p>
-@@ -20,11 +20,19 @@
-     </ul>
-   </description>
-   <launchable type="desktop-id">@AEGISUB_RDNS_NAME@.desktop</launchable>
--  <kudos>
--    <kudo>HiDpiIcon</kudo>
--    <kudo>HighContrast</kudo>
--    <kudo>UserDocs</kudo>
--  </kudos>
+@@ -25,6 +25,19 @@
+     <kudo>HighContrast</kudo>
+     <kudo>UserDocs</kudo>
+   </kudos>
 +  <categories>
 +    <category>AudioVideo</category>
 +    <category>Graphics</category>
@@ -36,7 +29,7 @@ index 684da1276..9bc934af7 100644
    <screenshots>
      <screenshot type="default">
        <caption>Typesetting</caption>
-@@ -43,19 +51,25 @@
+@@ -43,19 +56,25 @@
      <name>Aegisub Group</name>
    </developer>
    <url type="bugtracker">https://github.com/TypesettingTools/Aegisub/issues</url>
@@ -60,12 +53,10 @@ index 684da1276..9bc934af7 100644
    </provides>
    <releases>
      <!-- TODO: automatic replace at config time -->
--    <release version="3.4.1" date="2025-01-01"/>
-+    <release version="3.4.1" date="2025-01-01">
-+      <url>https://aegisub.org/changelog/3.4.1/</url>
+-    <release version="3.4.2" date="2025-01-12"/>
++    <release version="3.4.2" date="2025-01-12">
++      <url>https://aegisub.org/changelog/3.4.2/</url>
 +    </release>
    </releases>
  </component>
 -- 
-2.47.1
-

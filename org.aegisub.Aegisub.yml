@@ -160,8 +160,8 @@ modules:
           - ./b2 install variant=release
         sources:
           - type: archive
-            url: https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz
-            sha512: 097a0541945d5027b7513c249e65099a7269dcadf65e013f747ab9064fc3332975dc1eec6bd7aa9ac8a2fbe6e154409b06f267668c7c66ad6f01bd556a1d02db
+            url: https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+            sha512: fa97666d3de550541b038b1a5b496284ab0785b9fff1c5da01e88605f04ce97541626cbd2f9b793bd5b87fccb2db10f5f7544f4d78c710f39f4b6455a910e654
             x-checker-data:
               type: anitya
               project-id: 6845

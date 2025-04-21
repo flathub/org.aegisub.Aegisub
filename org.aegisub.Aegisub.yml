@@ -192,8 +192,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/AviSynth/AviSynthPlus.git
-            tag: v3.7.4
-            commit: 424707f297d4a7ecae3d5b84b35b1a1297ec8782
+            tag: v3.7.5
+            commit: 6c7c26617a6675eec89e4d4a3565ed709df6511f
             x-checker-data:
               type: git
               version-scheme: semantic

@@ -86,8 +86,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/wxWidgets/wxWidgets.git
-            tag: v3.2.8
-            commit: 8aef5f40b93958719771331ca03866b7b6fff6bf
+            tag: v3.3.0
+            commit: e92f57b421938e00f0ad944c281c2e353eee2ab8
             x-checker-data:
               type: git
               tag-pattern: ^v(\d.\d.\d)$
@@ -198,8 +198,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/libass/libass.git
-            tag: 0.17.3
-            commit: e46aedea0a0d17da4c4ef49d84b94a7994664ab5
+            tag: 0.17.4
+            commit: bbb3c7f1570a4a021e52683f3fbdf74fe492ae84
             x-checker-data:
               type: git
               version-scheme: semantic

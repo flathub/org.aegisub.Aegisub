@@ -52,6 +52,7 @@ modules:
       - -Dwx_version=3.2.6
       - -Dcredit="zefr0x"
       - -Denable_update_checker=false
+      - --buildtype=release
     sources:
       - type: git
         url: https://github.com/TypesettingTools/Aegisub

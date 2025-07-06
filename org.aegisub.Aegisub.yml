@@ -80,6 +80,8 @@ modules:
           - -DwxUSE_WEBVIEW_WEBKIT=OFF
           - -DwxUSE_WEBVIEW=OFF
           - -DwxUSE_LIBPNG=sys
+          # TODO: Make sure upstream Aegisub fixes this issue to delete this line.
+          - -DwxNO_REQUIRE_LITERAL_MSGIDS=OFF
         cleanup:
           - /bin
           - /share/bakefile

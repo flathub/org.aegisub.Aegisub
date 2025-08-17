@@ -60,7 +60,7 @@ modules:
         commit: f437ba4f547fdb0e02432f1c45a4da25e51035f8
         x-checker-data:
           type: git
-          tag-pattern: ^v(\d.\d.\d)$
+          tag-pattern: ^v(\d*\.\d*\.\d*)$
           version-scheme: semantic
       - type: patch
         path: fix-and-improve-appstream-file.patch
@@ -91,7 +91,7 @@ modules:
             commit: 8aef5f40b93958719771331ca03866b7b6fff6bf
             x-checker-data:
               type: git
-              tag-pattern: ^v(\d.\d.\d)$
+              tag-pattern: ^v(\d*\.\d*\.\d*)$
               version-scheme: semantic
       - name: ffms2
         buildsystem: autotools
@@ -104,7 +104,7 @@ modules:
             commit: 7ed5e4d039ca9a6236bd2ebdfdd656c4304fbe04
             x-checker-data:
               type: git
-              tag-pattern: ^(\d\.\d)$
+              tag-pattern: ^(\d*\.\d*)$
         modules:
           - name: ffmpeg
             buildsystem: autotools

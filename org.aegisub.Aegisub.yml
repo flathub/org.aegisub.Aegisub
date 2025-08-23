@@ -18,8 +18,24 @@ finish-args:
   - --device=dri
   - --socket=pulseaudio
   - --filesystem=home
+add-extensions:
+  org.aegisub.Aegisub.Automations:
+    directory: automations
+    subdirectories: true
+    add-ld-path: lib
+    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo
+    no-autodownload: true
+    autodelete: true
+  org.aegisub.Aegisub.Automations.default:
+    directory: automations/default
+    bundle: true
+    no-autodownload: false
+    autodelete: true
 # TODO: Consider separate locales
 separate-locales: false
+cleanup-commands:
+  - install -d ${FLATPAK_DEST}/automations
+  - ln -s ${FLATPAK_DEST}/automations/share/aegisub/automation ${FLATPAK_DEST}/share/aegisub/automation
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -53,6 +69,9 @@ modules:
       - -Dcredit="zefr0x"
       - -Denable_update_checker=false
       - --buildtype=release
+    post-install:
+      - mkdir -p ${FLATPAK_DEST}/automations/default/share/aegisub
+      - mv ${FLATPAK_DEST}/share/aegisub/automation ${FLATPAK_DEST}/automations/default/share/aegisub/automation
     sources:
       - type: git
         url: https://github.com/TypesettingTools/Aegisub
@@ -230,15 +249,3 @@ modules:
             x-checker-data:
               type: git
               version-scheme: semantic
-  - name: AegisubScripts
-    modules:
-      - name: LuaegisubCollection
-        buildsystem: simple
-        build-commands:
-          - install -Dm644 *.lua -t /app/share/aegisub/automation/autoload/
-        sources:
-          - type: git
-            url: https://github.com/unanimated/luaegisub
-            # There is no version tags.
-            commit: 31ca1da409b2f69c415de4bef2aef2ef328d5655
-

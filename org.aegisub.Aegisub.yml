@@ -140,7 +140,6 @@ modules:
               - --disable-doc
               # Those components are not used in ffms2.
               - --disable-avdevice
-              - --disable-postproc
               - --disable-avfilter
               - --disable-network
               # FFMS2 doens't do any encoding, hwaccel, muxing, filtering or use devices.

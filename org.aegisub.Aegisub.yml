@@ -236,6 +236,8 @@ modules:
             x-checker-data:
               type: git
               version-scheme: semantic
+          - type: patch
+            path: uchardet-fix-cmake.patch
       - shared-modules/intltool/intltool-0.51.json
       - name: gtest
         buildsystem: cmake-ninja

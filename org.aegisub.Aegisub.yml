@@ -8,7 +8,7 @@
 
 id: org.aegisub.Aegisub
 runtime: org.gnome.Platform
-runtime-version: '48'
+runtime-version: "48"
 sdk: org.gnome.Sdk
 command: aegisub
 finish-args:
@@ -31,6 +31,13 @@ add-extensions:
     bundle: true
     no-autodownload: false
     autodelete: true
+  org.aegisub.Aegisub.Automations.DependencyControl:
+    directory: automations/dependency_control
+    subdirectories: true
+    add-ld-path: lib
+    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo
+    no-autodownload: true
+    autodelete: true
 # TODO: Consider separate locales
 separate-locales: false
 cleanup-commands:
@@ -45,8 +52,8 @@ cleanup:
   - /share/man
   - /share/doc
   - /share/gtk-doc
-  - '*.la'
-  - '*.a'
+  - "*.la"
+  - "*.a"
 modules:
   - name: aegisub
     buildsystem: meson
@@ -119,7 +126,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/FFMS/ffms2.git
-            tag: '5.0'
+            tag: "5.0"
             commit: 7ed5e4d039ca9a6236bd2ebdfdd656c4304fbe04
             x-checker-data:
               type: git
@@ -248,3 +255,66 @@ modules:
             x-checker-data:
               type: git
               version-scheme: semantic
+  - name: DependencyControl
+    buildsystem: simple
+    build-commands:
+      - install macros/l0.DependencyControl.Toolbox.moon automations/dependency_control/autoload/
+      - install modules/DependencyControl.moon automations/dependency_control/include/l0/
+      - install -d automations/dependency_control/include/l0/DependencyControl/
+      - cp -p -r modules/DependencyControl/* automations/dependency_control/include/l0/DependencyControl/
+    sources:
+      - type: git
+        url: https://github.com/TypesettingTools/DependencyControl.git
+        tag: v0.6.4-alpha
+        commit: 92aae98dafc54117411efeb5f85e0d57dcb3daaf
+        x-checker-data:
+          type: git
+          tag-pattern: ^v(\d*\.\d*\.\d*)(-alpha)?$
+          version-scheme: semantic
+    modules:
+      - name: YUtils
+        buildsystem: simple
+        build-commands:
+          - install src/Yutils.lua automations/dependency_control/include/
+        sources:
+          - type: git
+            url: https://github.com/TypesettingTools/YUtils
+            branch: master
+            commit: 91a4ac771b08ecffdcc8c084592286961d99c5f2
+      - name: LuaJSON
+        buildsystem: simple
+        # note: upstream has a makefile,  but that just installs the files, but into the wrong directory, and it's not modifiable, as it appends a lua_bins dir
+        build-commands:
+          - cp -p -r lua/* "${FLATPAK_DEST}/automations/dependency_control/include/"
+        sources:
+          - type: git
+            url: https://github.com/harningt/luajson.git
+            branch: master
+            commit: 6ecaf9bea8b121a9ffca5a470a2080298557b55d
+      - name: moonscript
+        buildsystem: simple
+        build-commands:
+          - make build
+          - install -D bin/moon bin/moonc /usr/bin/
+        sources:
+          - type: git
+            url: https://github.com/leafo/moonscript
+            branch: master
+            commit: 3b134e01ebc5961ca132bff5ba2871c88d65347e
+
+      - name: ffi-experiments
+        buildsystem: simple
+        build-commands:
+          - command -v moonc &>/dev/null || (echo "moonc not found" >&2 && exit 1)
+          - make lua
+          - make all
+          - install build/requireffi.lua automations/dependency_control/include/requireffi/
+          - install build/BadMutex.lua automations/dependency_control/include/BM/
+          - install build/DownloadManager.lua automations/dependency_control/include/DM/
+          - install build/PreciseTimer.lua automations/dependency_control/include/PT/
+          - install build/libBadMutex.so build/libDownloadManager.so build/libPreciseTimer.so automations/dependency_control/lib/
+        sources:
+          - type: git
+            url: https://github.com/TypesettingTools/ffi-experiments
+            branch: master
+            commit: 3d31f77b752a95c1e4186582dcaf39a21301c5a9

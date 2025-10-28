@@ -34,7 +34,7 @@ add-extensions:
   org.aegisub.Aegisub.Automations.DependencyControl:
     directory: automations/dependency_control
     bundle: true
-    no-autodownload: true
+    no-autodownload: false
     autodelete: true
 # TODO: Consider separate locales
 separate-locales: false

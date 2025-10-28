@@ -23,7 +23,7 @@ add-extensions:
     directory: automations
     subdirectories: true
     add-ld-path: lib
-    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo;share/aegisub/automation/lib
+    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo
     no-autodownload: true
     autodelete: true
   org.aegisub.Aegisub.Automations.default:
@@ -345,10 +345,11 @@ modules:
           - make all
           - install -D build/requireffi.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/requireffi/requireffi.lua"
           - install -D build/BadMutex.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/BM/BadMutex.lua"
+          - install -D build/libBadMutex.so "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/BM/BadMutex/libBadMutex.so"
           - install -D build/DownloadManager.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/DM/DownloadManager.lua"
           - install -D build/PreciseTimer.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/PT/PreciseTimer.lua"
-          - mkdir -p "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/lib/"
-          - install build/libBadMutex.so build/libDownloadManager.so build/libPreciseTimer.so "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/lib/"
+          - install -D build/libPreciseTimer.so "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/PT/PreciseTimer/libPreciseTimer.so"
+          - install -D build/libDownloadManager.so "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/DM/DownloadManager/libDownloadManager.so"
         sources:
           - type: git
             url: https://github.com/TypesettingTools/ffi-experiments

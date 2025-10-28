@@ -312,7 +312,7 @@ modules:
           - type: git
             url: https://github.com/lunarmodules/luafilesystem
             commit: 09511782201302ade916d4b250d01a6c61b56844
-      - name: luarocks-lpeg (rock)
+      - name: luarocks-lpeg_rock
         buildsystem: simple
         build-commands:
           - luarocks build ./lpeg-1.1.0-2.src.rock
@@ -323,15 +323,6 @@ modules:
       - name: moonscript
         buildsystem: simple
         build-commands:
-          - luarocks --tree="${FLATPAK_DEST}" list
-          - luarocks --tree="${FLATPAK_DEST}" path
-          - eval $(luarocks --tree="${FLATPAK_DEST}" path)
-          - export LUA_PATH
-          - export LUA_CPATH
-          - luajit -e "print('LUA_PATH:', package.path); print('LUA_CPATH:', package.cpath)"
-          - luajit -v
-          - which luajit
-          - luajit -e "require('argparse'); print('argparse found!')"
           - make LUA=luajit build
           - mkdir -p "${FLATPAK_DEST}/bin/"
           - install bin/moon bin/moonc "${FLATPAK_DEST}/bin/"
@@ -344,11 +335,13 @@ modules:
           - type: git
             url: https://github.com/leafo/moonscript
             commit: 3b134e01ebc5961ca132bff5ba2871c88d65347e
+          - type: patch
+            path: moonscript-use-luajit.patch
       - name: ffi-experiments
         buildsystem: simple
         build-commands:
           - command -v moonc &>/dev/null || (echo "moonc not found" >&2 && exit 1)
-          - moonc --version &> /dev/null || (echo "moonc defect" >&2 && exit 1)
+          - moonc -v &> /dev/null || (echo "moonc defect" >&2 && exit 1)
           - make lua
           - make all
           - install -D build/requireffi.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/requireffi/requireffi.lua"

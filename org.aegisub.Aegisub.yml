@@ -253,9 +253,9 @@ modules:
   - name: DependencyControl
     buildsystem: simple
     build-commands:
-      - install macros/l0.DependencyControl.Toolbox.moon "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/autoload/"
-      - install modules/DependencyControl.moon "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/"
-      - install -d "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/DependencyControl/""
+      - install -D macros/l0.DependencyControl.Toolbox.moon "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/autoload/l0.DependencyControl.Toolbox.moon"
+      - install -D modules/DependencyControl.moon "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/DependencyControl.moon"
+      - install -d "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/DependencyControl/"
       - cp -p -r modules/DependencyControl/* "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/DependencyControl/"
     sources:
       - type: git
@@ -323,8 +323,7 @@ modules:
         buildsystem: simple
         build-commands:
           - make LUA=luajit LUAROCKS=luarocks compile
-          - mkdir -p "${FLATPAK_DEST}/bin/"
-          - install bin/moon bin/moonc "${FLATPAK_DEST}/bin/"
+          - luarocks build
         # TODO: we need moonscript for .moon files from dependency controls files, but do we really need bin/moon and bin/moonc or does it use some lua files, that are installed somewhere like share/lua/5.1 or similiar
         cleanup:
           # remove lua and luarocks
@@ -341,7 +340,6 @@ modules:
         buildsystem: simple
         build-commands:
           - command -v moonc &>/dev/null || (echo "moonc not found" >&2 && exit 1)
-          - moonc --version
           - moonc --version &> /dev/null || (echo "moonc defect" >&2 && exit 1)
           - make lua
           - make all

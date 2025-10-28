@@ -295,15 +295,14 @@ modules:
             url: https://github.com/luarocks/luarocks
             tag: v3.12.2
             commit: 990ec6ca3b097c7160fe925cfca4b8e57cfe5685
-      - name: luarocks-argparse
+      - name: luarocks-alt-getopt_rock
         buildsystem: simple
         build-commands:
-          - luarocks build
+          - luarocks build ./alt-getopt-0.8.0-1.src.rock
         sources:
-          - type: git
-            url: https://github.com/luarocks/argparse
-            tag: 0.7.1
-            commit: 27967d7b52295ea7885671af734332038c132837
+          - type: file
+            url: https://luarocks.org/manifests/mpeterv/alt-getopt-0.8.0-1.src.rock
+            sha512: 501168c6a53094b0d49805ae69bd59722c75155c41d5d71d9a8ad93120fcb8a516b67909702331df838216f817e20c941e26a76de7c643743525e71e9e2dc0b2
       - name: luarocks-luafilesystem
         buildsystem: simple
         build-commands:
@@ -323,7 +322,7 @@ modules:
       - name: moonscript
         buildsystem: simple
         build-commands:
-          - make LUA=luajit build
+          - make LUA=luajit LUAROCKS=luarocks compile
           - mkdir -p "${FLATPAK_DEST}/bin/"
           - install bin/moon bin/moonc "${FLATPAK_DEST}/bin/"
         # TODO: we need moonscript for .moon files from dependency controls files, but do we really need bin/moon and bin/moonc or does it use some lua files, that are installed somewhere like share/lua/5.1 or similiar
@@ -334,14 +333,16 @@ modules:
         sources:
           - type: git
             url: https://github.com/leafo/moonscript
-            commit: 3b134e01ebc5961ca132bff5ba2871c88d65347e
+            tag: v0.5.0
+            commit: c3f4e511c21afa7d2f9b6257f9d3805da65b0313
           - type: patch
             path: moonscript-use-luajit.patch
       - name: ffi-experiments
         buildsystem: simple
         build-commands:
           - command -v moonc &>/dev/null || (echo "moonc not found" >&2 && exit 1)
-          - moonc -v &> /dev/null || (echo "moonc defect" >&2 && exit 1)
+          - moonc --version
+          - moonc --version &> /dev/null || (echo "moonc defect" >&2 && exit 1)
           - make lua
           - make all
           - install -D build/requireffi.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/requireffi/requireffi.lua"

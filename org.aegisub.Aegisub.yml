@@ -324,11 +324,7 @@ modules:
         build-commands:
           - make LUA=luajit LUAROCKS=luarocks compile
           - luarocks build
-        # TODO: we need moonscript for .moon files from dependency controls files, but do we really need bin/moon and bin/moonc or does it use some lua files, that are installed somewhere like share/lua/5.1 or similiar
-        cleanup:
-          # remove lua and luarocks
-          # TODO: do correctly
-          - /bin/lua
+        # TODO: how to package bin files, that re only needed by this extension, as moonc, moon, luarocks are only needed by this extension
         sources:
           - type: git
             url: https://github.com/leafo/moonscript

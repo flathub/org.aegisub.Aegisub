@@ -279,7 +279,6 @@ modules:
         sources:
           - type: git
             url: https://github.com/TypesettingTools/YUtils
-            branch: master
             commit: 91a4ac771b08ecffdcc8c084592286961d99c5f2
       - name: LuaJSON
         buildsystem: simple
@@ -289,7 +288,6 @@ modules:
         sources:
           - type: git
             url: https://github.com/harningt/luajson.git
-            branch: master
             commit: 6ecaf9bea8b121a9ffca5a470a2080298557b55d
       - name: moonscript
         buildsystem: simple
@@ -299,7 +297,6 @@ modules:
         sources:
           - type: git
             url: https://github.com/leafo/moonscript
-            branch: master
             commit: 3b134e01ebc5961ca132bff5ba2871c88d65347e
 
       - name: ffi-experiments
@@ -316,5 +313,4 @@ modules:
         sources:
           - type: git
             url: https://github.com/TypesettingTools/ffi-experiments
-            branch: master
             commit: 3d31f77b752a95c1e4186582dcaf39a21301c5a9

@@ -190,12 +190,9 @@ modules:
               stable-only: true
               url-template: https://archives.boost.io/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz
       - name: LuaJIT
-        buildsystem: autotools
-        no-autogen: true
-        build-options:
-          cflags: -DLUAJIT_ENABLE_LUA52COMPAT
-        make-install-args:
-          - PREFIX=${FLATPAK_DEST}
+        buildsystem: simple
+        build-commands:
+          - make XCFLAGS="-DLUAJIT_ENABLE_LUA52COMPAT" PREFIX="${FLATPAK_DEST}" install
         cleanup:
           - /bin
         sources:
@@ -282,7 +279,7 @@ modules:
         buildsystem: simple
         # note: upstream has a makefile, but that just installs the files, but into the wrong directory, and it's not modifiable, as it appends a lua_bins dir
         build-commands:
-          - mkdir -p "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/" 
+          - mkdir -p "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/"
           - cp -p -r lua/* "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/"
         sources:
           - type: git
@@ -326,7 +323,15 @@ modules:
       - name: moonscript
         buildsystem: simple
         build-commands:
-          - eval "$(luarocks --tree="${FLATPAK_DEST}" path)"
+          - luarocks --tree="${FLATPAK_DEST}" list
+          - luarocks --tree="${FLATPAK_DEST}" path
+          - eval $(luarocks --tree="${FLATPAK_DEST}" path)
+          - export LUA_PATH
+          - export LUA_CPATH
+          - luajit -e "print('LUA_PATH:', package.path); print('LUA_CPATH:', package.cpath)"
+          - luajit -v
+          - which luajit
+          - luajit -e "require('argparse'); print('argparse found!')"
           - make LUA=luajit build
           - mkdir -p "${FLATPAK_DEST}/bin/"
           - install bin/moon bin/moonc "${FLATPAK_DEST}/bin/"

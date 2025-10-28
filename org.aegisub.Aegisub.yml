@@ -23,7 +23,7 @@ add-extensions:
     directory: automations
     subdirectories: true
     add-ld-path: lib
-    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo
+    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo;share/aegisub/automation/lib
     no-autodownload: true
     autodelete: true
   org.aegisub.Aegisub.Automations.default:
@@ -33,9 +33,7 @@ add-extensions:
     autodelete: true
   org.aegisub.Aegisub.Automations.DependencyControl:
     directory: automations/dependency_control
-    subdirectories: true
-    add-ld-path: lib
-    merge-dirs: share/aegisub/automation/autoload;share/aegisub/automation/include;share/aegisub/automation/demo
+    bundle: true
     no-autodownload: true
     autodelete: true
 # TODO: Consider separate locales
@@ -258,10 +256,10 @@ modules:
   - name: DependencyControl
     buildsystem: simple
     build-commands:
-      - install macros/l0.DependencyControl.Toolbox.moon automations/dependency_control/autoload/
-      - install modules/DependencyControl.moon automations/dependency_control/include/l0/
-      - install -d automations/dependency_control/include/l0/DependencyControl/
-      - cp -p -r modules/DependencyControl/* automations/dependency_control/include/l0/DependencyControl/
+      - install macros/l0.DependencyControl.Toolbox.moon "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/autoload/"
+      - install modules/DependencyControl.moon "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/"
+      - install -d "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/DependencyControl/""
+      - cp -p -r modules/DependencyControl/* "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/l0/DependencyControl/"
     sources:
       - type: git
         url: https://github.com/TypesettingTools/DependencyControl.git
@@ -275,41 +273,85 @@ modules:
       - name: YUtils
         buildsystem: simple
         build-commands:
-          - install src/Yutils.lua automations/dependency_control/include/
+          - install -D src/Yutils.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/Yutils.lua"
         sources:
           - type: git
             url: https://github.com/TypesettingTools/YUtils
             commit: 91a4ac771b08ecffdcc8c084592286961d99c5f2
       - name: LuaJSON
         buildsystem: simple
-        # note: upstream has a makefile,  but that just installs the files, but into the wrong directory, and it's not modifiable, as it appends a lua_bins dir
+        # note: upstream has a makefile, but that just installs the files, but into the wrong directory, and it's not modifiable, as it appends a lua_bins dir
         build-commands:
-          - cp -p -r lua/* "${FLATPAK_DEST}/automations/dependency_control/include/"
+          - mkdir -p "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/" 
+          - cp -p -r lua/* "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/"
         sources:
           - type: git
             url: https://github.com/harningt/luajson.git
             commit: 6ecaf9bea8b121a9ffca5a470a2080298557b55d
+      - name: luarocks
+        buildsystem: simple
+        build-commands:
+          - ./configure --with-lua="${FLATPAK_DEST}" --lua-version="5.1" --prefix="${FLATPAK_DEST}" --with-lua-interpreter=luajit
+          - make install
+        sources:
+          - type: git
+            url: https://github.com/luarocks/luarocks
+            tag: v3.12.2
+            commit: 990ec6ca3b097c7160fe925cfca4b8e57cfe5685
+      - name: luarocks-argparse
+        buildsystem: simple
+        build-commands:
+          - luarocks build
+        sources:
+          - type: git
+            url: https://github.com/luarocks/argparse
+            tag: 0.7.1
+            commit: 27967d7b52295ea7885671af734332038c132837
+      - name: luarocks-luafilesystem
+        buildsystem: simple
+        build-commands:
+          - luarocks build
+        sources:
+          - type: git
+            url: https://github.com/lunarmodules/luafilesystem
+            commit: 09511782201302ade916d4b250d01a6c61b56844
+      - name: luarocks-lpeg (rock)
+        buildsystem: simple
+        build-commands:
+          - luarocks build ./lpeg-1.1.0-2.src.rock
+        sources:
+          - type: file
+            url: https://luarocks.org/manifests/gvvaughan/lpeg-1.1.0-2.src.rock
+            sha512: e2c9dd2c8bdbb14dcedead7708dcc98c95e5c6a5f90ca0768886dfa16e97936283e6b433ffced1ef3f67f6e8f36a41615153dd570d1089e6b8fc446a59bb2fb1
       - name: moonscript
         buildsystem: simple
         build-commands:
-          - make build
-          - install -D bin/moon bin/moonc /usr/bin/
+          - eval "$(luarocks --tree="${FLATPAK_DEST}" path)"
+          - make LUA=luajit build
+          - mkdir -p "${FLATPAK_DEST}/bin/"
+          - install bin/moon bin/moonc "${FLATPAK_DEST}/bin/"
+        # TODO: we need moonscript for .moon files from dependency controls files, but do we really need bin/moon and bin/moonc or does it use some lua files, that are installed somewhere like share/lua/5.1 or similiar
+        cleanup:
+          # remove lua and luarocks
+          # TODO: do correctly
+          - /bin/lua
         sources:
           - type: git
             url: https://github.com/leafo/moonscript
             commit: 3b134e01ebc5961ca132bff5ba2871c88d65347e
-
       - name: ffi-experiments
         buildsystem: simple
         build-commands:
           - command -v moonc &>/dev/null || (echo "moonc not found" >&2 && exit 1)
+          - moonc --version &> /dev/null || (echo "moonc defect" >&2 && exit 1)
           - make lua
           - make all
-          - install build/requireffi.lua automations/dependency_control/include/requireffi/
-          - install build/BadMutex.lua automations/dependency_control/include/BM/
-          - install build/DownloadManager.lua automations/dependency_control/include/DM/
-          - install build/PreciseTimer.lua automations/dependency_control/include/PT/
-          - install build/libBadMutex.so build/libDownloadManager.so build/libPreciseTimer.so automations/dependency_control/lib/
+          - install -D build/requireffi.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/requireffi/requireffi.lua"
+          - install -D build/BadMutex.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/BM/BadMutex.lua"
+          - install -D build/DownloadManager.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/DM/DownloadManager.lua"
+          - install -D build/PreciseTimer.lua "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/include/PT/PreciseTimer.lua"
+          - mkdir -p "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/lib/"
+          - install build/libBadMutex.so build/libDownloadManager.so build/libPreciseTimer.so "${FLATPAK_DEST}/automations/dependency_control/share/aegisub/automation/lib/"
         sources:
           - type: git
             url: https://github.com/TypesettingTools/ffi-experiments

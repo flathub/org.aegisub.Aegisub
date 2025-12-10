@@ -106,8 +106,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/wxWidgets/wxWidgets.git
-            tag: v3.2.8
-            commit: 8aef5f40b93958719771331ca03866b7b6fff6bf
+            tag: v3.3.1
+            commit: 49c6810948f40c457e3d0848b9111627b5b61de5
             x-checker-data:
               type: git
               tag-pattern: ^v(\d*\.\d*\.\d*)$
@@ -164,8 +164,8 @@ modules:
             sources:
               - type: git
                 url: https://github.com/FFmpeg/FFmpeg.git
-                tag: n8.0
-                commit: 140fd653aed8cad774f991ba083e2d01e86420c7
+                tag: n8.0.1
+                commit: 894da5ca7d742e4429ffb2af534fcda0103ef593
                 x-checker-data:
                   type: git
                   tag-pattern: ^n([\d.]{3,7})$
@@ -177,8 +177,8 @@ modules:
           - ./b2 install variant=release
         sources:
           - type: archive
-            url: https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
-            sha512: fa97666d3de550541b038b1a5b496284ab0785b9fff1c5da01e88605f04ce97541626cbd2f9b793bd5b87fccb2db10f5f7544f4d78c710f39f4b6455a910e654
+            url: https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.gz
+            sha512: 10415853059910ceb522b7611e5c5f8e99ff9e1efb58ec04f60d3cc250f0d737f9b127f68289f273347e1c612d379af5a937016808845c49f32efda187ad79e2
             x-checker-data:
               type: anitya
               project-id: 6845

@@ -106,8 +106,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/wxWidgets/wxWidgets.git
-            tag: v3.2.8
-            commit: 8aef5f40b93958719771331ca03866b7b6fff6bf
+            tag: v3.3.1
+            commit: 49c6810948f40c457e3d0848b9111627b5b61de5
             x-checker-data:
               type: git
               tag-pattern: ^v(\d*\.\d*\.\d*)$
@@ -164,8 +164,8 @@ modules:
             sources:
               - type: git
                 url: https://github.com/FFmpeg/FFmpeg.git
-                tag: n8.0
-                commit: 140fd653aed8cad774f991ba083e2d01e86420c7
+                tag: n8.0.1
+                commit: 894da5ca7d742e4429ffb2af534fcda0103ef593
                 x-checker-data:
                   type: git
                   tag-pattern: ^n([\d.]{3,7})$

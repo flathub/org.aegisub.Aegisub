@@ -112,6 +112,8 @@ modules:
               type: git
               tag-pattern: ^v(\d*\.\d*\.\d*)$
               version-scheme: semantic
+              versions:
+                <=: 3.2.8
       - name: ffms2
         buildsystem: autotools
         cleanup:
@@ -139,6 +141,8 @@ modules:
               project-id: 6845
               stable-only: true
               url-template: https://archives.boost.io/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz
+              versions:
+                <=: 1.88.0
       - name: LuaJIT
         buildsystem: autotools
         no-autogen: true

@@ -124,51 +124,6 @@ modules:
             x-checker-data:
               type: git
               tag-pattern: ^(\d*\.\d*)$
-        modules:
-          - name: ffmpeg
-            buildsystem: autotools
-            config-opts:
-              # Should be ok, since ffms2 binaries are GPL.
-              - --enable-gpl
-              # TODO: Consider using GPLv3.
-              - --enable-version3
-              - --enable-shared
-              - --enable-lto
-              # No CLI tool is used.
-              - --disable-programs
-              # No docs are needed in flatpak.
-              - --disable-doc
-              # Those components are not used in ffms2.
-              - --disable-avdevice
-              - --disable-avfilter
-              - --disable-network
-              # FFMS2 doens't do any encoding, hwaccel, muxing, filtering or use devices.
-              - --disable-encoders
-              - --disable-hwaccels
-              - --disable-muxers
-              - --disable-filters
-              - --disable-devices
-              # External library support:
-              - --disable-alsa
-              - --disable-iconv
-              # TODO: Considor using `aom` over `dav1d`.
-              # - --enable-libaom # AV1 video decoding via libaom
-              - --enable-libdav1d # AV1 decoding via libdav1d
-              - --enable-libjxl # JPEG XL decoding via libjxl
-              - --enable-libopenjpeg # JPEG 2000 decoding via OpenJPEG
-              - --enable-libvpx # VP8 and VP9 decoding via libvpx
-              # Developer options:
-              - --disable-debug
-            cleanup:
-              - /share/ffmpeg
-            sources:
-              - type: git
-                url: https://github.com/FFmpeg/FFmpeg.git
-                tag: n8.0
-                commit: 140fd653aed8cad774f991ba083e2d01e86420c7
-                x-checker-data:
-                  type: git
-                  tag-pattern: ^n([\d.]{3,7})$
       - name: boost
         buildsystem: simple
         build-commands:

@@ -31,6 +31,13 @@ add-extensions:
     bundle: true
     no-autodownload: false
     autodelete: true
+  # External Extentions
+  org.aegisub.Aegisub.Automations.unanimated-scripts:
+    directory: automations/unanimated-scripts
+    bundle: true
+    no-autodownload: true
+    autodelete: true
+
 # TODO: Consider separate locales
 separate-locales: false
 cleanup-commands:
@@ -209,3 +216,6 @@ modules:
             x-checker-data:
               type: git
               version-scheme: semantic
+
+  # External Extentions
+  - ./automations/unanimated-scripts.yaml

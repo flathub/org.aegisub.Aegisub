@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>org.aegisub.Aegisub.Automations.DependencyControl</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.line0">
+    <name>line0</name>
+  </developer>
+  <extends>org.aegisub.Aegisub</extends>
+  <name>DependencyControl</name>
+  <summary>Package manager for automation scripts (requires internet access)</summary>
+  <url type="homepage">https://github.com/TypesettingTools/DependencyControl</url>
+  <url type="bugtracker">https://github.com/TypesettingTools/DependencyControl/issues</url>
+  <url type="vcs-browser">https://github.com/TypesettingTools/DependencyControl</url>
+  <releases>
+    <release version="0.6.4-alpha" date="2019-01-08" />
+  </releases>
+</component>

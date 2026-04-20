@@ -37,6 +37,11 @@ add-extensions:
     bundle: true
     no-autodownload: true
     autodelete: true
+  org.aegisub.Aegisub.Automations.DependencyControl:
+    directory: automations/DependencyControl
+    bundle: true
+    no-autodownload: true
+    autodelete: true
 
 # TODO: Consider separate locales
 separate-locales: false
@@ -218,4 +223,5 @@ modules:
               version-scheme: semantic
 
   # External Extentions
+  - ./automations/DependencyControl.yaml
   - ./automations/unanimated-scripts.yaml

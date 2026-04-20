@@ -3,6 +3,13 @@ buildsystem: simple
 build-commands:
   - install -Dm644 --target-directory=${FLATPAK_DEST}/automations/unanimated-scripts/share/aegisub/automation/autoload/ ${FLATPAK_BUILDER_BUILDDIR}/*.lua
   - install -Dm644 --target-directory=${FLATPAK_DEST}/automations/unanimated-scripts/share/metainfo ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.Automations.unanimated-scripts.metainfo.xml
+  - appstreamcli compose --no-net
+    --prefix=/
+    --components=${FLATPAK_ID}.Automations.unanimated-scripts
+    --origin=${FLATPAK_ID}.Automations.unanimated-scripts
+    --result-root=${FLATPAK_DEST}/automations/unanimated-scripts
+    --data-dir=${FLATPAK_DEST}/automations/unanimated-scripts/share/app-info/xmls
+    ${FLATPAK_DEST}/automations/unanimated-scripts
 sources:
   - type: git
     url: https://github.com/unanimated/luaegisub

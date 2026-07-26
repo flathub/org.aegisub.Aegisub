@@ -3,21 +3,19 @@ buildsystem: simple
 build-commands:
   - install -Dm644 macros/l0.DependencyControl.Toolbox.moon --target-directory=${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/autoload/
   - install -Dm644 modules/DependencyControl.moon --target-directory=${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/l0/
-  - find modules/DependencyControl/ -type f -exec install -Dm 644 "{}" --target-directory="${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/l0/DependencyControl/" \;
+  - find modules/DependencyControl/ -type f -exec install -Dm 644 "{}" --target-directory="${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/l0/DependencyControl/"
+    \;
   # Install entension metainfo
-  - install -Dm644 --target-directory=${FLATPAK_DEST}/automations/DependencyControl/share/metainfo ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.Automations.DependencyControl.metainfo.xml
-  - appstreamcli compose --no-net
-    --prefix=/
-    --components=${FLATPAK_ID}.Automations.DependencyControl
-    --origin=${FLATPAK_ID}.Automations.DependencyControl
-    --result-root=${FLATPAK_DEST}/automations/DependencyControl
-    --data-dir=${FLATPAK_DEST}/automations/DependencyControl/share/app-info/xmls
-    ${FLATPAK_DEST}/automations/DependencyControl
+  - install -Dm644 --target-directory=${FLATPAK_DEST}/automations/DependencyControl/share/metainfo
+    ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.Automations.DependencyControl.metainfo.xml
+  - appstreamcli compose --no-net --prefix=/ --components=${FLATPAK_ID}.Automations.DependencyControl
+    --origin=${FLATPAK_ID}.Automations.DependencyControl --result-root=${FLATPAK_DEST}/automations/DependencyControl
+    --data-dir=${FLATPAK_DEST}/automations/DependencyControl/share/app-info/xmls ${FLATPAK_DEST}/automations/DependencyControl
 sources:
   - type: git
     url: https://github.com/TypesettingTools/DependencyControl.git
-    tag: v0.6.4-alpha
-    commit: 92aae98dafc54117411efeb5f85e0d57dcb3daaf
+    tag: v0.8.1
+    commit: a0b0021f0fc45bf0d10fdefdad33a714b7f98d23
     x-checker-data:
       type: git
       tag-pattern: ^v(\d+\.\d+\.\d+(?:-alpha)?)$
@@ -49,16 +47,16 @@ modules:
     build-options:
       prepend-path: /app/automations/DependencyControl/bin
       env:
-        LUA_PATH: '/app/automations/DependencyControl/share/lua/5.1/?.lua;/app/automations/DependencyControl/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua'
-        LUA_CPATH: '/app/automations/DependencyControl/lib/lua/5.1/?.so;./?.so'
+        LUA_PATH: /app/automations/DependencyControl/share/lua/5.1/?.lua;/app/automations/DependencyControl/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua
+        LUA_CPATH: /app/automations/DependencyControl/lib/lua/5.1/?.so;./?.so
     build-commands:
       - make LUA=luajit LUAROCKS=luarocks build
       - luarocks build
     sources:
       - type: git
         url: https://github.com/leafo/moonscript
-        tag: v0.6.0
-        commit: 74e1e55cef028f7a1ef5dc80c116cea4cec45545
+        tag: v0.7.0
+        commit: b0fc077344b3bd3dc6fd503eee0ea05cd604f0c6
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+)$

@@ -60,8 +60,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/leafo/moonscript
-        tag: v0.6.0
-        commit: 74e1e55cef028f7a1ef5dc80c116cea4cec45545
+        tag: v0.7.0
+        commit: b0fc077344b3bd3dc6fd503eee0ea05cd604f0c6
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+)$

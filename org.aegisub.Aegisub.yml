@@ -136,20 +136,18 @@ modules:
       - name: boost
         buildsystem: simple
         build-commands:
-          - ./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=chrono,container,filesystem,system,locale,regex,thread
+          - ./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=chrono,container,filesystem,locale,regex,thread
             --with-icu
           - ./b2 install variant=release
         sources:
           - type: archive
-            url: https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
-            sha512: fa97666d3de550541b038b1a5b496284ab0785b9fff1c5da01e88605f04ce97541626cbd2f9b793bd5b87fccb2db10f5f7544f4d78c710f39f4b6455a910e654
+            url: https://archives.boost.io/release/1.91.0/source/boost_1_91_0.tar.gz
+            sha512: 5ba62e121bdcee7d211387669174cb93d177b167b1f88872ae91b274d56d70f792ca3beb6607063daf565fe2b55f59dc3599366800f1121cab832245f7d8f582
             x-checker-data:
               type: anitya
               project-id: 6845
               stable-only: true
               url-template: https://archives.boost.io/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz
-              versions:
-                <=: 1.88.0
       - name: LuaJIT
         buildsystem: autotools
         no-autogen: true

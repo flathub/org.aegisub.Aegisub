@@ -87,14 +87,12 @@ modules:
     sources:
       - type: git
         url: https://github.com/TypesettingTools/Aegisub
-        tag: v3.4.2
-        commit: f437ba4f547fdb0e02432f1c45a4da25e51035f8
+        tag: v3.5.0-beta
+        commit: 75fdea41aaa1c5fd29ed6bc924bdb6114a8d8e36
         x-checker-data:
           type: git
           tag-pattern: ^v(\d*\.\d*\.\d*)$
           version-scheme: semantic
-      - type: patch
-        path: fix-and-improve-appstream-file.patch
     modules:
       - name: wxwidgets
         buildsystem: cmake-ninja

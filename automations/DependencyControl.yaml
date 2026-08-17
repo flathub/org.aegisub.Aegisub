@@ -8,19 +8,16 @@ build-options:
 build-commands:
   - luajit depctrl.lua deploy --out-dir "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/"
   # Install extention metainfo
-  - install -Dm644 --target-directory=${FLATPAK_DEST}/automations/DependencyControl/share/metainfo ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.Automations.DependencyControl.metainfo.xml
-  - appstreamcli compose --no-net
-    --prefix=/
-    --components=${FLATPAK_ID}.Automations.DependencyControl
-    --origin=${FLATPAK_ID}.Automations.DependencyControl
-    --result-root=${FLATPAK_DEST}/automations/DependencyControl
-    --data-dir=${FLATPAK_DEST}/automations/DependencyControl/share/app-info/xmls
-    ${FLATPAK_DEST}/automations/DependencyControl
+  - install -Dm644 --target-directory=${FLATPAK_DEST}/automations/DependencyControl/share/metainfo
+    ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.Automations.DependencyControl.metainfo.xml
+  - appstreamcli compose --no-net --prefix=/ --components=${FLATPAK_ID}.Automations.DependencyControl
+    --origin=${FLATPAK_ID}.Automations.DependencyControl --result-root=${FLATPAK_DEST}/automations/DependencyControl
+    --data-dir=${FLATPAK_DEST}/automations/DependencyControl/share/app-info/xmls ${FLATPAK_DEST}/automations/DependencyControl
 sources:
   - type: git
     url: https://github.com/TypesettingTools/DependencyControl.git
-    tag: v0.8.1
-    commit: a0b0021f0fc45bf0d10fdefdad33a714b7f98d23
+    tag: v0.8.2
+    commit: 5412da2b4ffd1ad10dfff970d13ef5cc942820ed
     x-checker-data:
       type: git
       tag-pattern: ^v(\d+\.\d+\.\d+(?:-alpha)?)$

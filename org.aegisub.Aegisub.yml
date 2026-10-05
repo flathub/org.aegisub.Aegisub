@@ -17,7 +17,7 @@ finish-args:
   - --socket=wayland
   - --device=dri
   - --socket=pulseaudio
-  - --filesystem=~/.aegisub:create
+  - --persist=.aegisub
 add-extensions:
   org.aegisub.Aegisub.Automations:
     directory: automations

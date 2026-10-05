@@ -16,8 +16,8 @@ build-commands:
 sources:
   - type: git
     url: https://github.com/TypesettingTools/DependencyControl.git
-    tag: v0.8.2
-    commit: 5412da2b4ffd1ad10dfff970d13ef5cc942820ed
+    tag: v0.9.0
+    commit: 8cd732eae9cb83de06b1ace6da210423827289f2
     x-checker-data:
       type: git
       tag-pattern: ^v(\d+\.\d+\.\d+(?:-alpha)?)$

@@ -3,7 +3,8 @@ buildsystem: simple
 build-options:
   prepend-path: /app/automations/DependencyControl/bin
   env:
-    LUA_PATH: /app/automations/DependencyControl/share/lua/5.1/?.lua;/app/automations/DependencyControl/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua
+    LUA_PATH: 
+      /app/automations/DependencyControl/share/lua/5.1/?.lua;/app/automations/DependencyControl/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua
     LUA_CPATH: /app/automations/DependencyControl/lib/lua/5.1/?.so;./?.so
 build-commands:
   - luajit depctrl.lua deploy --out-dir "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/"
@@ -16,8 +17,8 @@ build-commands:
 sources:
   - type: git
     url: https://github.com/TypesettingTools/DependencyControl.git
-    tag: v0.8.2
-    commit: 5412da2b4ffd1ad10dfff970d13ef5cc942820ed
+    tag: v0.9.1
+    commit: c4101aeed1a92d26b4ada28720dd7e3d5845d3b4
     x-checker-data:
       type: git
       tag-pattern: ^v(\d+\.\d+\.\d+(?:-alpha)?)$
@@ -28,7 +29,8 @@ modules:
   - name: YUtils
     buildsystem: simple
     build-commands:
-      - install -Dm644 src/Yutils.lua "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/Yutils.lua"
+      - install -Dm644 src/Yutils.lua 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/Yutils.lua"
     sources:
       - type: git
         url: https://github.com/TypesettingTools/YUtils
@@ -38,8 +40,10 @@ modules:
     # NOTE: Upstream has a makefile, but that just installs the files, but into the wrong directory, and it's not modifiable, as it appends a lua_bins dir
     build-commands:
       # TODO: Use `find` and `install` commands.
-      - mkdir -p "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/"
-      - cp -r lua/* "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/"
+      - mkdir -p 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/"
+      - cp -r lua/* 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/"
     sources:
       - type: git
         url: https://github.com/harningt/luajson.git
@@ -49,7 +53,8 @@ modules:
     build-options:
       prepend-path: /app/automations/DependencyControl/bin
       env:
-        LUA_PATH: /app/automations/DependencyControl/share/lua/5.1/?.lua;/app/automations/DependencyControl/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua
+        LUA_PATH: 
+          /app/automations/DependencyControl/share/lua/5.1/?.lua;/app/automations/DependencyControl/share/lua/5.1/?/init.lua;./?.lua;./?/init.lua
         LUA_CPATH: /app/automations/DependencyControl/lib/lua/5.1/?.so;./?.so
     build-commands:
       - make LUA=luajit LUAROCKS=luarocks build
@@ -57,8 +62,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/leafo/moonscript
-        tag: v0.7.0
-        commit: b0fc077344b3bd3dc6fd503eee0ea05cd604f0c6
+        tag: v0.8.0
+        commit: b0fa73036d560e7cd5caff88e7d4aab886711f4c
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+)$
@@ -90,7 +95,8 @@ modules:
         sources:
           - type: file
             url: https://luarocks.org/manifests/mpeterv/alt-getopt-0.8.0-1.src.rock
-            sha512: 501168c6a53094b0d49805ae69bd59722c75155c41d5d71d9a8ad93120fcb8a516b67909702331df838216f817e20c941e26a76de7c643743525e71e9e2dc0b2
+            sha512: 
+              501168c6a53094b0d49805ae69bd59722c75155c41d5d71d9a8ad93120fcb8a516b67909702331df838216f817e20c941e26a76de7c643743525e71e9e2dc0b2
       - name: luarocks-luafilesystem
         buildsystem: simple
         build-options:
@@ -111,7 +117,8 @@ modules:
         sources:
           - type: file
             url: https://luarocks.org/manifests/gvvaughan/lpeg-1.1.0-2.src.rock
-            sha512: e2c9dd2c8bdbb14dcedead7708dcc98c95e5c6a5f90ca0768886dfa16e97936283e6b433ffced1ef3f67f6e8f36a41615153dd570d1089e6b8fc446a59bb2fb1
+            sha512: 
+              e2c9dd2c8bdbb14dcedead7708dcc98c95e5c6a5f90ca0768886dfa16e97936283e6b433ffced1ef3f67f6e8f36a41615153dd570d1089e6b8fc446a59bb2fb1
       - name: luarocks-argparse_rock
         buildsystem: simple
         build-options:
@@ -121,7 +128,8 @@ modules:
         sources:
           - type: file
             url: https://luarocks.org/manifests/argparse/argparse-0.7.1-1.src.rock
-            sha512: 0397e8d14baa93f0736baf5c995bc940ae345e309262adac191fae8902d7d275cc882ae556f72b0660d308d0ceaea6dcd41602a56f211a4fbf5fb9b768bccbf7
+            sha512: 
+              0397e8d14baa93f0736baf5c995bc940ae345e309262adac191fae8902d7d275cc882ae556f72b0660d308d0ceaea6dcd41602a56f211a4fbf5fb9b768bccbf7
   - name: ffi-experiments
     buildsystem: simple
     build-options:
@@ -129,13 +137,20 @@ modules:
     build-commands:
       - make lua
       - make all
-      - install -Dm644 build/requireffi.lua "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/requireffi/requireffi.lua"
-      - install -Dm644 build/BadMutex.lua "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/BM/BadMutex.lua"
-      - install -Dm644 build/libBadMutex.so "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/BM/BadMutex/libBadMutex.so"
-      - install -Dm644 build/DownloadManager.lua "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/DM/DownloadManager.lua"
-      - install -Dm644 build/PreciseTimer.lua "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/PT/PreciseTimer.lua"
-      - install -Dm644 build/libPreciseTimer.so "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/PT/PreciseTimer/libPreciseTimer.so"
-      - install -Dm644 build/libDownloadManager.so "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/DM/DownloadManager/libDownloadManager.so"
+      - install -Dm644 build/requireffi.lua 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/requireffi/requireffi.lua"
+      - install -Dm644 build/BadMutex.lua 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/BM/BadMutex.lua"
+      - install -Dm644 build/libBadMutex.so 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/BM/BadMutex/libBadMutex.so"
+      - install -Dm644 build/DownloadManager.lua 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/DM/DownloadManager.lua"
+      - install -Dm644 build/PreciseTimer.lua 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/PT/PreciseTimer.lua"
+      - install -Dm644 build/libPreciseTimer.so 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/PT/PreciseTimer/libPreciseTimer.so"
+      - install -Dm644 build/libDownloadManager.so 
+        "${FLATPAK_DEST}/automations/DependencyControl/share/aegisub/automation/include/DM/DownloadManager/libDownloadManager.so"
     sources:
       - type: git
         url: https://github.com/TypesettingTools/ffi-experiments

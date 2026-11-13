@@ -87,8 +87,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/TypesettingTools/Aegisub
-        tag: v3.5.0
-        commit: 43af875ea01e80052cc6c44f24fc8c5258261c6d
+        tag: v3.5.1
+        commit: 088ca6caa878209e279871f8897273f49342372b
         x-checker-data:
           type: git
           tag-pattern: ^v(\d*\.\d*\.\d*)$
